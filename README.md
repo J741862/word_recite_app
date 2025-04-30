@@ -1,6 +1,6 @@
 # Word Recitation & Notebook Flask App
 
-A personalized vocabulary learning web application built with Flask. Users can sign up, complete a survey to select vocabulary categories (e.g., high school, CET‑4, IELTS), and then learn words, add them to a personal "notebook", and track daily study check‑ins. SMS reminders can be configured via Twilio.
+A personalized vocabulary learning web application built with Flask. Users can sign up, complete a survey to select vocabulary categories (e.g., high school, IELTS), and then learn words, add them to a personal "notebook", and track daily study check‑ins. SMS reminders can be configured via Twilio.
 
 ---
 
@@ -9,7 +9,7 @@ A personalized vocabulary learning web application built with Flask. Users can s
 - **User Authentication**: Register, login, logout with Flask‑Login & bcrypt.
 - **Onboarding Survey**: New users choose which word lists to study, set a completion timeframe, and opt into SMS reminders.
 - **Personalized Homepage**: After survey, users see buttons for each chosen category to begin their vocabulary journey.
-- **Vocabulary Pool**: 5 categories (`highschool`, `cet4`, `cet6`, `ielts`, `uni`) loaded from CSV files and paginated for performance.
+- **Vocabulary Pool**: 3 categories (`highschool`, `ielts`, `uni`) loaded from CSV files and paginated for performance.
 - **Add to Notebook**: Per‑word button to save to a personal notebook; saved words no longer appear in study lists.
 - **My Notebook**: View all saved words in one place.
 - **Daily Check‑In**: Mark daily completion with a single click; prevents duplicate check‑ins.
@@ -132,5 +132,5 @@ word_recite_app/
 
 ## License
 
-MIT © Your Name or Organization
+MIT © Wanjie Zhang
 
