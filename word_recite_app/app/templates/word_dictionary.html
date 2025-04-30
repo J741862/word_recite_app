@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>单词库 - {{ 
+        '全部' if category=='all' else 
+        {'highschool':'高中','cet4':'大学英语四级','cet6':'大学英语六级','ielts':'雅思词汇','uni':'大学词汇'}[category] 
+    }} 词汇</title>
+    <style>
+        body { background: linear-gradient(135deg,#00008B,#1E90FF); color:white; font-family:Arial,sans-serif; text-align:center; padding:20px; }
+        .nav { position: absolute; top: 20px; right: 20px; }
+        .nav a { margin-left: 10px; color: white; text-decoration: none; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 4px; }
+        .nav a:hover { background: rgba(0,0,0,0.5); }
+        .flash { margin: 10px auto; padding: 10px; background: #fffa; color: #333; display: inline-block; border-radius: 4px; }
+        .word-list { width:80%; margin:20px auto; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; }
+        table { width:100%; border-collapse:collapse; }
+        th,td { padding:12px; border-bottom:1px solid rgba(255,255,255,0.2); }
+        th { background:rgba(255,255,255,0.2); }
+        .pagination { margin:20px 0; }
+        .pagination a, .button { color:white; margin:0 10px; text-decoration:none; }
+        .button { display:inline-block; margin-top:10px; padding:10px 20px; background:#0057FF; border:none; border-radius:8px; }
+        .button:hover { background:#003bb5; }
+        button[disabled] { background: #666; cursor: default; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="{{ url_for('main.index') }}">首页</a>
+        <a href="{{ url_for('main.notebook') }}">我的笔记本</a>
+        <a href="{{ url_for('main.logout') }}">登出</a>
+    </div>
+    <h1>
+        {% if category=='all' %}全部词汇{% else %}
+            {{ {'highschool':'高中词汇','cet4':'大学英语四级','cet6':'大学英语六级','ielts':'雅思词汇','uni':'大学词汇'}[category] }}
+        {% endif %}
+    </h1>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="flash">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="word-list">
+        <table>
+            <thead>
+                <tr><th>英文单词</th><th>音标</th><th>中文翻译</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+                {% if words|length == 0 %}
+                <tr><td colspan="4">该分类暂时没有单词。</td></tr>
+                {% else %}
+                  {% for w in words %}
+                  <tr>
+                    <td>{{ w.word }}</td>
+                    <td>{{ w.phonetic or '暂无音标' }}</td>
+                    <td>{{ w.meaning }}</td>
+                    <td>
+                      {% if w in current_user.notebook %}
+                        <button disabled>已添加</button>
+                      {% else %}
+                        <form method="POST" action="{{ url_for('main.add_to_notebook', word_id=w.id) }}">
+                          <button type="submit">添加到笔记本</button>
+                        </form>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {% if pagination.has_prev %}
+            <a href="{{ url_for('main.word_dictionary', category=category, page=pagination.prev_num) }}">« 上一页</a>
+        {% endif %}
+        <span>第 {{ pagination.page }} / {{ pagination.pages }} 页</span>
+        {% if pagination.has_next %}
+            <a href="{{ url_for('main.word_dictionary', category=category, page=pagination.next_num) }}">下一页 »</a>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('main.index') }}" class="button">← 返回首页</a>
+</body>
+</html>

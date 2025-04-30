@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>开始单词之旅</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0018A8, #0D1A50);
+            color: white;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        /* 登出按钮 */
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .logout a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .logout a:hover {
+            background: rgba(0,0,0,0.5);
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .button-group form {
+            margin: 0;
+        }
+        .button-group button {
+            padding: 12px 24px;
+            font-size: 1.1em;
+            color: white;
+            background: #0057FF;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .button-group button:hover {
+            background: #003bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout">
+        <a href="{{ url_for('main.logout') }}">登出</a>
+    </div>
+    <div class="container">
+        <h1>让我们一起开始单词之旅吧~</h1>
+        <div class="button-group">
+            {% set display_names = {'highschool':'高中词汇', 'ielts':'雅思词汇', 'uni':'大学词汇'} %}
+            {% for cat in current_user.interests.split(',') %}
+                <form method="GET" action="{{ url_for('main.word_dictionary') }}">
+                <input type="hidden" name="category" value="{{ cat }}">
+                <button type="submit">{{ display_names[cat] }}</button>
+                </form>
+            {% endfor %}
+
+        </div>
+    </div>
+</body>
+</html>

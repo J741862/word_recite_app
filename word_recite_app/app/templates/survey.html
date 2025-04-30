@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>问卷调查</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: url('{{ url_for("static", filename="klein.gif") }}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        .survey-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 360px;
+        }
+        .survey-box h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .survey-box label {
+            display: block;
+            margin: 12px 0 6px;
+            font-weight: 500;
+            color: #444;
+        }
+        .survey-box .radio-group,
+        .survey-box select,
+        .survey-box input[type="number"],
+        .survey-box input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .survey-box .radio-group label {
+            display: block;
+            margin: 6px 0;
+            font-weight: normal;
+        }
+        .survey-box button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #0057FF;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .survey-box button:hover {
+            background-color: #003bb5;
+        }
+    </style>
+</head>
+<body>
+  <div class="survey-box">
+    <h2>新用户调查问卷</h2>
+    <form method="POST" action="{{ url_for('main.survey') }}">
+      <label>选择您想要学习的词库（可多选）：</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="categories" value="highschool"> 高中词汇</label>
+        <label><input type="checkbox" name="categories" value="ielts"> 雅思词汇</label>
+        <label><input type="checkbox" name="categories" value="uni"> 大学词汇</label>
+      </div>
+
+      <!-- Duration, reminder fields remain as before -->
+      <label>期望在多长时间内完成？</label>
+      <input type="number" name="duration" min="1" required>
+      <select name="unit">
+        <option value="days">天</option>
+        <option value="weeks">周</option>
+        <option value="months">月</option>
+      </select>
+
+      <label>是否接受每日打卡短信？</label>
+      <label><input type="radio" name="reminder" value="yes" required> 是</label>
+      <label><input type="radio" name="reminder" value="no"> 否</label>
+      <input type="text" name="phone" placeholder="若选“是”，请输入手机号">
+
+      <button type="submit">提交问卷</button>
+    </form>
+  </div>
+</body>
+</html>
